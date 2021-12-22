@@ -1,0 +1,2 @@
+[docker]
+serverone  ansible_connection=ssh  ansible_user=serverone  ansible_host=192.168.209.134  ansible_become_password=dia1&9Y

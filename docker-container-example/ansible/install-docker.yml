@@ -1,0 +1,32 @@
+---
+- name: Make sure Docker is installed correctly
+  hosts: docker
+
+  tasks:
+    - name: Enable RHEL repositories
+      become: yes
+      yum:
+        name: epel-release
+        state: installed
+        #description: EPEL YUM repo
+        #baseurl: metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-source-$releasever&basearch&infra=$infra&content=$contentdir
+      when:
+        - ansible_facts['distribution'] == "CentOS"
+        - ansible_facts['distribution_major_version'] == "8"
+
+    - name: Install Docker
+      become: yes
+      yum:
+        name: docker
+        state: latest
+
+    - name: Start and enable Docker
+      become: yes
+      systemd:
+        name: podman
+        state: started
+        enabled: yes
+
+    - name: Install Docker Compose
+      pip:
+        name: docker-compose

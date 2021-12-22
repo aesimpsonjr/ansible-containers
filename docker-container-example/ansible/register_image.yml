@@ -1,0 +1,21 @@
+---
+- name: Register container image
+  hosts: docker
+  become: true
+  vars_files:
+    /etc/ansible/vars.yml
+
+  tasks:
+    - name: Log into registry
+      docker_login:
+        username: "{{ hub_user }}"
+        password: "{{ hub_pass }}"
+        registry_url: "https://hub.docker.com/repository/docker/asimpson25/pluralsight-course"
+
+    - name: Register container demo_image
+      docker_image:
+        name: hub.docker.com/repository/docker/pluralsight-course/docker_container
+        build:
+          path: /home/serverone/
+        source: build
+        push: yes

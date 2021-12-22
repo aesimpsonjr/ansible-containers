@@ -1,0 +1,12 @@
+---
+- name: Create a container image
+  hosts: docker
+
+  tasks:
+    - name: Create an image from the Dockerfile in the current directory
+      become: true
+      docker_image:
+        name: pluralsight/demo_image
+        build:
+        path: /home/serverone/
+        source: build
